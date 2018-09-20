@@ -54,7 +54,6 @@
 					<a class="navbar-brand" href="#">Multiroom Chat</a>
 				</div>
 				
-				
 				<div class="collapse navbar-collapse" id="navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						<li>
@@ -64,6 +63,9 @@
 							<a href="#" id="exibe_participantes">Participantes</a>
 						</li>
 					</ul>
+					<ul class="nav navbar-nav navbar-right">
+							<li><a href="/">Sair</a></li>
+						</ul>
 				</div>
 			</div>
 		</nav>
@@ -71,31 +73,8 @@
 		<div class="container">
             <div class="row conversa" id="conversa">
 				<div class="col-md-1"></div>
-				<div class="col-md-10">
-					<div class="dialogo">
-						<h4>Jorge</h4>
-						<p>Fala José, blz cara?</p>
-					</div>
+				<div id="dialogos" class="col-md-10">
 					
-					<div class="dialogo">
-						<h4>José</h4>
-						<p>Opa, tudo certo!</p>
-					</div>
-					
-					<div class="dialogo">
-						<h4>Jorge</h4>
-						<p>Vai estudar mais sobre NodeJS hoje?</p>
-					</div>
-					
-					<div class="dialogo">
-						<h4>José</h4>
-						<p>Sim, com certeza. Vamos trabalhar com Websockets hoje, o assunto é bem interessante</p>
-					</div>
-					
-					<div class="dialogo">
-						<h4>Jorge</h4>
-						<p>Show de bola, comunicação bi-direcional em páginas ou sistemas web é muito bacana mesmo</p>
-					</div>
 				</div>
 				<div class="col-md-1"></div>
                 
@@ -141,7 +120,24 @@
 			</div>
 		</nav>		
 		
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" 
+				integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+		<script src="/socket.io/socket.io.js"></script>
+
+		<script>
+			var socket = io('http://localhost:3000');
+
+			socket.on('msgLogonClient', function(data) {
+				var html = '';
+				html += '<div class="dialogo">';
+				html += '<h4>' + data.nickname + '</h4>';
+				html += '<p>' + data.msg + '</p>';
+				html += '</div>';
+
+				$('#dialogos').append(html);
+			});
+		</script>
 		
 	</body>
 </html>
