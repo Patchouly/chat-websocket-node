@@ -13,9 +13,9 @@ module.exports.multiroomchat = function(application, req, res){
     }
 
     application.get('io').emit(
-        'msgLogonClient', 
+        'alertClient', 
         {nickname : login.nickname, msg : ' acabou de entrar no chat!'}
     );
 
-    res.render("chat");
+    res.render("chat", {dados : login});
 }
