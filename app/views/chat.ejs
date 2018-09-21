@@ -6,51 +6,12 @@
 
 	<title>Multiroom Chat</title>
 
-	<!-- JQUERY -->
-	<script src="js/jquery-2.2.1.js"></script>
-
 	<!-- bootstrap - link cdn -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" crossorigin="anonymous">
 
 	<!-- estilo -->
 	<link href="css/style.css" rel="stylesheet">
 
-	<script type="text/javascript">
-
-		$(document).ready(function () {
-			$("#exibe_chat").click(function () {
-				$("#conversa").show();
-				$("#participantes").hide();
-				ocultaNavbar();
-			});
-
-			$("#exibe_participantes").click(function () {
-				$("#participantes").show();
-				$("#conversa").hide();
-				ocultaNavbar();
-			});
-
-			$("#NSFW").click(function () {
-				$(".fodase").addClass("in");
-				$(".fodase").animate({
-					height: 'toggle'
-				}, "slow");
-			});
-
-			$(document).keypress(function (e) {
-				if (e.which == 13) {
-					$('#enviar').click();
-				}
-			});
-		});
-
-		function ocultaNavbar() {
-			$("#btn_navbar_toggle").attr("class", "navbar-toggle collapsed");
-			$("#navbar-collapse-1").attr("class", "navbar-collapse collapse");
-			$("#btn_navbar_toggle").attr("aria-expanded", "false");
-			$("#navbar-collapse-1").attr("aria-expanded", "false");
-		}
-	</script>
 </head>
 
 <body>
@@ -93,7 +54,7 @@
 		</span>
 		<div class="row">
 			<div class="col-md-12">
-				<div class="alert alert-info alertas fade">
+				<div class="alert alert-info alertas">
 				</div>
 			</div>
 		</div>
@@ -130,54 +91,13 @@
 		</div>
 	</nav>
 
+	<script src="js/jquery-2.2.1.js"></script>
+
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" crossorigin="anonymous"></script>
 
 	<script src="/socket.io/socket.io.js"></script>
 
-	<script>
-		var socket = io('http://10.100.6.25:80');
-
-		$('#enviar').click(function () {
-			socket.emit(
-				'msgToServer',
-				{
-					nickname: $('#nickname').val(),
-					msg: $('#mensagem').val(),
-					online: $('#online').val()
-				}
-			);
-			$('#mensagem').val("");
-			$('#online').val(1);
-		});
-
-		socket.on('msgToClient', function (data) {
-			var html = '';
-			html += '<div class="dialogo">';
-			html += '<h4>' + data.nickname + '</h4>';
-			html += '<p>' + data.msg + '</p>';
-			html += '</div>';
-
-			$('#dialogos').append(html);
-			window.scrollTo(0, document.body.scrollHeight);
-		});
-
-		socket.on('alertClient', function (data) {
-			var html = '<h4>' + data.nickname + data.msg + '</h4>';
-
-			$('.alert-info').append(html);
-		});
-
-		socket.on('updateParticipantes', function (data) {
-			console.log("atualizou");
-			var html = '';
-			html += '<span class="participante">';
-			html += '<img src="media/ico_usuario.png">';
-			html += data.nickname;
-			html += '</span>';
-
-			$('#membros').append(html);
-		});
-	</script>
+	<script src="js/chat.js"></script>
 
 </body>
 

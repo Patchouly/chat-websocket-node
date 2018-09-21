@@ -12,10 +12,18 @@ app.set('io', io);
 
 //criar a conexão com o websocket assim que o client acessa a página com o script socket.io
 io.on('connection', function(socket) {
-    console.log('Usuário Conectou');
-
-    socket.on('disconnect', function() {
+    socket.on('disconnect', function(data) {
         console.log('Usuário Desconectou');
+        if ( parseInt(data.online) === 1 ) {
+            socket.emit(
+                'removeParticipantes', 
+                {nickname: data.nickname}
+            );
+            socket.broadcast.emit(
+                'removeParticipantes', 
+                {nickname: data.nickname}
+            );
+        }
     });
 
     socket.on('msgToServer', function(data) {
